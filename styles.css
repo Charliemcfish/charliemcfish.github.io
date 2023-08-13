@@ -1,0 +1,243 @@
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column; /* Add this line */
+  justify-content: flex-start; /* Add this line */
+  align-items: center;
+  height: 100vh;
+  background-image: url("park.gif");
+  background-size: cover;
+  overflow: hidden;
+}
+
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  width: 100%;
+  padding: 10px 20px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-buttons {
+  display: flex;
+  align-items: left;
+}
+
+.nav-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0 auto; /* Center the title */
+}
+.game-container {
+  position: relative;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 40px); /* Adjust for the height of the navbar */
+}
+
+.game-item {
+  position: absolute;
+}
+
+/* ... previous styles ... */
+
+.bone {
+  position: absolute;
+  animation: fall 8s linear infinite;
+  transform-origin: center center;
+  width: 50px; /* Adjust the bone width */
+  height: 50px; /* Adjust the bone height */
+}
+
+/* ... rest of the styles ... */
+
+
+.bone-counter {
+  position: absolute;
+  top: 10px; /* Adjust the vertical position */
+  left: 10px; /* Adjust the horizontal position */
+  font-size: 24px;
+
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-30px) rotate(0deg);
+  }
+  100% {
+    transform: translateY(calc(100vh + 30px)) rotate(720deg);
+  }
+}
+
+
+
+
+@media screen and (max-width: 600px) {
+  body {
+    background-size: contain;
+  }
+
+
+
+  .game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 60px); /* Adjust for the height of the navbar */
+  }
+
+  .bone {
+    width: 20px;
+    height: 20px;
+  }
+
+  
+  #dog {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+
+
+#dog {
+  position: absolute;
+  transform-origin: center bottom;
+  width: 150px; /* Initial small size */
+  height: 150px; /* Initial small size */
+}
+
+
+.message-box {
+  position: absolute;
+  top: 50px; /* Adjust the vertical position */
+  left: 50%; /* Center the box horizontally */
+  transform: translateX(-50%); /* Center horizontally */
+  background-color: rgba(255, 197, 7, 0.921);
+  padding: 10px;
+  width: 500px;
+  border-radius: 10px;
+  display: none; /* Initially hidden */
+}
+
+  
+
+@keyframes fadeInOut {
+  0%, 100% {
+    opacity: 0;
+  }
+  10%, 90% {
+    opacity: 1;
+  }
+}
+
+
+.achievements {
+  position: absolute;
+  top: 50px; /* Adjust the vertical position */
+  right: 10px; /* Adjust the horizontal position */
+  text-align: right;
+}
+
+.achievements-button {
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.achievements-dropdown {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  display: none;
+  padding: 5px;
+  right: 0;
+  width: 150px;
+  margin-top: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.achievements-dropdown ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.achievements-dropdown li {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+.achievement-status {
+  font-size: 18px;
+  margin-left: 10px;
+  color: gray; /* Set the initial color to gray */
+}
+
+.shop {
+  position: absolute;
+  top: 50px; /* Adjust the vertical position */
+  right: 10px; /* Adjust the horizontal position */
+  text-align: right;
+}
+
+.shop-button {
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.shop-dropdown {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  display: none;
+  padding: 5px;
+  right: 0;
+  margin-top: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  width: 250px;
+}
+
+.shop-dropdown ul {
+  list-style: none;
+  padding: 5px;
+  margin: 0;
+}
+
+.shop-dropdown li {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+.shop-item {
+  margin-right: 10px; /* Add a margin between the item text and the button */
+}
+
+.buy-button {
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.achievements-button,
+.shop-button {
+  font-size: 24px;
+  background-color: gold;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px;
+}
