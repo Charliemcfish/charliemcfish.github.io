@@ -1,9 +1,13 @@
-
 const clickSound = new Audio("click.mp3");
 const dog = document.getElementById("dog");
 const barkSound = document.getElementById("bark-sound");
 const boneCounter = document.getElementById("bone-counter");
 const backgroundMusic = document.getElementById("background-music");
+const ghost = document.getElementById("ghost");
+const screamSound = new Audio("scream.mp3");
+
+let inNewHouse = false;
+
 
 document.addEventListener("click", () => {
   backgroundMusic.play();
@@ -16,6 +20,12 @@ let bonesWorthMultiplier = 1;
 dog.addEventListener("click", () => {
   barkSound.play();
 });
+
+function resetDogAnimation() {
+  dog.style.animation = ""; // Clear the animation property
+  dog.style.transform = "none"; // Reset the rotation
+}
+
 
 function updateBoneCounter() {
   boneCounter.textContent = `🦴 ${bonesCollected}`;
@@ -33,8 +43,10 @@ function increaseBonesWorth() {
     dog.src = "dog.gif";
     document.body.style.backgroundImage = "url('park.gif')";
     backgroundMusic.muted = false;
+    resetDogAnimation(); // Reset the dog's animation
   }, 10000); // 10 seconds in milliseconds
 }
+
 
 function createBone(isSpecial) {
   const bone = document.createElement("img");
@@ -72,16 +84,33 @@ function updateDogSize() {
 
 const messageBox = document.getElementById("message-box");
 
+const messages = [
+  "TAP THE 🦴's TO FEED ME!",
+  "COLLECT 🦴 AND BUY US A NEW HOUSE!!! 🏡"
+];
+
+let currentMessageIndex = 0;
+
 function displayMessage(message) {
   messageBox.textContent = message;
   messageBox.style.display = "block";
 
   setTimeout(() => {
     messageBox.style.display = "none";
+
+    // If there are more messages to display, show the next one after a delay
+    if (currentMessageIndex + 1 < messages.length) {
+      currentMessageIndex++;
+      setTimeout(() => {
+        displayMessage(messages[currentMessageIndex]);
+      }, 2000); // 2 seconds in milliseconds
+    }
   }, 4000);
 }
 
-displayMessage("TAP THE 🦴's TO FEED ME!");
+// Initial call to display the first message
+displayMessage(messages[currentMessageIndex]);
+
 
 const achievementsButton = document.getElementById("achievements-button");
 const achievementsDropdown = document.getElementById("achievements-dropdown");
@@ -132,9 +161,12 @@ const shopItems = {
   "red-dye": 50,
   "purple-dye": 50,
   "dog-bed": 100,
-  "new-house": 100,
+  "new-house": 1,
   "lightning-potion": 1
 };
+
+
+
 
 shopButton.addEventListener("click", () => {
   shopDropdown.style.display = shopDropdown.style.display === "block" ? "none" : "block";
@@ -148,7 +180,50 @@ buyButtons.forEach(button => {
     if (bonesCollected >= price) {
       bonesCollected -= price;
       updateBoneCounter();
+
+      function startGhostFlying() {
+        const screenWidth = window.innerWidth;
+        const randomX = Math.random() * (screenWidth - 100); // Adjust 100 based on the ghost width
+        const randomY = Math.random() * 300; // Adjust 300 based on the ghost height
       
+        ghost.style.left = `${randomX}px`;
+        ghost.style.top = `${randomY}px`;
+        ghost.style.display = "block";
+      
+        screamSound.play();
+      
+        setTimeout(() => {
+          ghost.style.display = "none";
+        }, 3000); // 3 seconds in milliseconds
+      
+        setTimeout(() => {
+          scheduleNextGhostFlying();
+        }, Math.random() * 15000 + 5000); // Random interval between 5 to 20 seconds
+      }
+      
+      function scheduleNextGhostFlying() {
+        setTimeout(() => {
+          startGhostFlying();
+        }, Math.random() * 20000 + 5000); // Random interval between 5 to 25 seconds
+      }
+
+      if (shopItem === "new-house") {
+        inNewHouse = true; // Set the inNewHouse variable to true
+        document.body.style.backgroundImage = "url('new-house-background.jpg')";
+      } else if (shopItem === "lightning-potion" && inNewHouse) {
+        displayMessage("THE GHOSTS REFUSE TO LET YOU DRINK A POTION");
+        return; }
+        document.body.style.backgroundImage = "url('house1.png')";
+          backgroundMusic.pause(); // Pause the current music
+          backgroundMusic.src = "house1.mp3"; // Change the music to house1.mp3
+          backgroundMusic.play(); // Start playing the new music
+  
+          displayMessage("😨 THIS PLACE IS CREEPY... LETS SAVE UP SOME 🦴 TO BUY A KEY TO GET OUT THIS PLACE!")
+  
+          // Start the ghost flying event after purchasing the new house
+          scheduleNextGhostFlying();
+        
+
       if (shopItem === "purple-dye") {
         dog.src = "purpledog.gif";
       } else if (shopItem === "lightning-potion") {
@@ -179,7 +254,3 @@ buyButtons.forEach(button => {
     }
   });
 });
-
-
-
-
